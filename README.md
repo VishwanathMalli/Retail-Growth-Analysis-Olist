@@ -1,6 +1,6 @@
 # Retail Growth & Customer Intelligence Engine (Olist E-Commerce)
 
-![Dashboard Preview](Power BI Dashboard/Dashboard.png)
+![Dashboard Preview](Power BI Dashboard)
 
 
 ## 📌 Executive Summary
