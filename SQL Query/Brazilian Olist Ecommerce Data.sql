@@ -73,8 +73,9 @@ join `Target_Ecommerce_SQL.orders` as o
 on p.order_id= o.order_id 
 where extract (year from o.order_purchase_timestamp) in (2017,2018) and extract (month from o.order_purchase_timestamp) between 1 and 8 
 group by extract (year from o.order_purchase_timestamp) ),
-
-#step 2: using LEAD window function to compare each year's payments with the previous year 
+ 
+#step 2: using LEAD window function to compare each year's payments with the previous year
+ 
 yearly_comparisons as ( select year, total_payment,
 
 lead(total_payment) over (order by year desc) as prev_year_payment
@@ -257,6 +258,19 @@ select seller_city, seller_state
 from `Target_Ecommerce_SQL.sellers`
 order by customer_state, customer_city;
 
+#11.1 count(cities) with customer and seller demand
+ 
+with demand_cities as (select customer_city, customer_state 
+from `Target_Ecommerce_SQL.customers`
+
+intersect distinct
+
+select seller_city, seller_state 
+from `Target_Ecommerce_SQL.sellers`
+order by customer_state, customer_city)
+
+select count(*) as total_demand_cities from demand_cities;
+
 -------------------------------------------------------------------------------------------------------------
 
 #12. Identify cities with Demand (Customers) but No Supply (Sellers).
@@ -270,8 +284,19 @@ select seller_city, seller_state
 from `Target_Ecommerce_SQL.sellers`
 order by customer_state, customer_city;
 
+#12.1 supply gap (cities count)
 
+with supply_gap as (select customer_city, customer_state 
+from `Target_Ecommerce_SQL.customers`
 
+except distinct
+
+select seller_city, seller_state 
+from `Target_Ecommerce_SQL.sellers`
+order by customer_state, customer_city)
+
+select count(*) from supply_gap;
+----------------------------------------------------------------------------------------------------------------------
 #13. Create a unified "VIP List" of the top 20 Spenders and top 20 Earners.
  # Top 20 Customers by Spend
 (SELECT 
@@ -299,6 +324,7 @@ JOIN `Target_Ecommerce_SQL.order_items` oi ON s.seller_id = oi.seller_id
 GROUP BY user_id, location
 ORDER BY total_value DESC
 LIMIT 20);
+
 
 
 
