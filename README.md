@@ -12,6 +12,12 @@ This project transforms raw relational data into a **strategic business roadmap*
 * **Key Techniques:** CTEs, Window Functions, Set Operators (`EXCEPT`/`UNION`),etc.
 
 ---
+## SQL Concepts Used
+- Joins
+- CTEs
+- Window Functions
+- Set Operators (UNION, INTERSECT, EXCEPT), etc.
+
 
 ## 📊 Key Insights & Business Proposals
 
